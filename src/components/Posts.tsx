@@ -1,15 +1,19 @@
 import { useState } from "react";
-import IPost from "../data/IPost";
+import { IPost } from "../data/IPost";
 import Post from "./Post";
 import PostDetails from "./PostDetails";
+import axios from "axios";
+import { ApiRoutes } from "../utility/ApiRoutes";
 
 interface PostProps {
   postProps: IPost[];
+  getAllPost: () => void;
 }
 
 const initSinglePost: IPost = {
-  postId: 0,
+  id: 0,
   title: "",
+  content: "",
   author: "",
 };
 
@@ -23,7 +27,7 @@ const Posts = (props: PostProps) => {
     >
       {props.postProps.map((p) => (
         <div
-          key={p.postId}
+          key={p.id}
           style={{
             border: "1px solid #385D8A",
             display: "inline-block",
@@ -33,21 +37,31 @@ const Posts = (props: PostProps) => {
             color: "white",
           }}
           onClick={() => {
-            setSinglePost(
-              props.postProps.find((sp) => sp.postId === p.postId) ||
-                initSinglePost
-            );
+            try {
+              axios
+                .get(ApiRoutes.BASEURL + ApiRoutes.POST + "/" + p.id)
+                .then(function (response) {
+                  setSinglePost(response.data);
+                });
+            } catch (error) {}
           }}
         >
-          <Post postId={p.postId} title={p.title} author={p.author} />
+          <Post
+            id={p.id}
+            title={p.title}
+            content={p.content}
+            author={p.author}
+          />
         </div>
       ))}
 
-      {singlePost.postId !== 0 ? (
+      {singlePost.id !== 0 ? (
         <PostDetails
-          postId={singlePost.postId}
+          id={singlePost.id}
           title={singlePost.title}
+          content={singlePost.content}
           author={singlePost.author}
+          getPosts={props.getAllPost}
         />
       ) : (
         <></>

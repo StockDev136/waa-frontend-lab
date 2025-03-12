@@ -1,14 +1,34 @@
-import { useState } from "react";
-import { posts } from "../data/Posts";
+import { useEffect, useState } from "react";
 import Posts from "./Posts";
+import axios from "axios";
+import { ApiRoutes } from "../utility/ApiRoutes";
+import { IPost } from "../data/IPost";
+import AddPost from "./AddPost";
+import { posts } from "../data/Posts";
+
+const fetchAllPost = async () =>
+  await axios.get(ApiRoutes.BASEURL + ApiRoutes.POST);
 
 const Dashboard = () => {
-  const [postData, setPostData] = useState(posts);
+  const [postData, setPostData] = useState<IPost[]>(posts);
   const [title, setTitle] = useState("");
+  const getPosts = () => {
+    try {
+      axios.get(ApiRoutes.BASEURL + ApiRoutes.POST).then((response) => {
+        const pos: IPost[] = response.data;
+        setPostData(pos);
+      });
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
   const changeName = () => {
-    setPostData((p) =>
-      p.map((po, index) => (index === 0 ? { ...po, title: title } : po))
+    const updateTitle = postData.map((po, index) =>
+      index === 0 ? { ...po, title: title } : po
     );
+    setPostData(updateTitle);
   };
   return (
     <div
@@ -16,7 +36,7 @@ const Dashboard = () => {
         height: "700px",
       }}
     >
-      <Posts postProps={postData} />
+      <Posts postProps={postData} getAllPost={getPosts} />
       <div
         style={{
           position: "absolute",
@@ -37,6 +57,9 @@ const Dashboard = () => {
         <button type="submit" onClick={changeName}>
           Change Name
         </button>
+      </div>
+      <div>
+        <AddPost getPosts={getPosts} />
       </div>
     </div>
   );

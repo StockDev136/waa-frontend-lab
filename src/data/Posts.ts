@@ -1,13 +1,34 @@
-import IPost from "./IPost";
+import { IPost } from "./IPost";
 
 export const posts: IPost[] = [
-  { postId: 120, title: "Java for Dummies", author: "Java Dummies" },
   {
-    postId: 121,
+    id: 120,
+    title: "Java for Dummies",
+    content: "dummies java program",
+    author: "Java Dummies",
+  },
+  {
+    id: 121,
     title: "Fundamental of Spring Boot",
+    content: "spring boot basics and everything else.",
     author: "Oriely",
   },
-  { postId: 122, title: "React Pro", author: "Reactors" },
-  { postId: 123, title: "JPA Concepts", author: "JPA Factors" },
-  { postId: 124, title: "Spring Security", author: "Security Pro" },
+  {
+    id: 122,
+    title: "React Pro",
+    content: "making react pros",
+    author: "Reactors",
+  },
+  {
+    id: 123,
+    title: "JPA Concepts",
+    content: "JPA foundation concepts",
+    author: "JPA Factors",
+  },
+  {
+    id: 124,
+    title: "Spring Security",
+    content: "All spring security",
+    author: "Security Pro",
+  },
 ];

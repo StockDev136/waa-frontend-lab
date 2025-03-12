@@ -1,7 +1,10 @@
-interface IPost {
-  postId: number;
+export interface IPost {
+  id: number;
   title: string;
+  content: string;
   author: string;
 }
 
-export default IPost;
+export interface IPostDetails extends IPost {
+  getPosts: () => void;
+}

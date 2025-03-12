@@ -1,9 +1,12 @@
-import IPost from "../data/IPost";
+import axios from "axios";
+import { IPostDetails } from "../data/IPost";
+import { ApiRoutes } from "../utility/ApiRoutes";
 
-const PostDetails = (prop: IPost) => {
+const PostDetails = (prop: IPostDetails) => {
+  console.log(prop);
   return (
     <div
-      key={prop.postId}
+      key={prop.id}
       style={{
         border: "1px solid #385D8A",
         width: "800px",
@@ -14,7 +17,7 @@ const PostDetails = (prop: IPost) => {
     >
       <h2 style={{ margin: "0" }}>{prop.title}</h2>
       <h3 style={{ margin: "0" }}>{prop.author}</h3>
-      <p style={{ position: "absolute" }}>{prop.author}</p>
+      <p style={{ position: "absolute" }}>{prop.content}</p>
       <div
         style={{
           position: "relative",
@@ -23,7 +26,18 @@ const PostDetails = (prop: IPost) => {
         }}
       >
         <button type="submit">Edit</button>
-        <button type="submit">Delete</button>
+        <button
+          type="submit"
+          onClick={() => {
+            try {
+              axios
+                .delete(ApiRoutes.BASEURL + ApiRoutes.POST + "/" + prop.id)
+                .then(() => prop.getPosts());
+            } catch (error) {}
+          }}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );
