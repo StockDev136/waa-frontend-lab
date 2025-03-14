@@ -1,9 +1,23 @@
 import axios from "axios";
-import { IPostDetails } from "../data/IPost";
+import { IComment, IPostDetails } from "../data/IPost";
 import { ApiRoutes } from "../utility/ApiRoutes";
+import { useEffect, useState } from "react";
+import Comment from "./Comment";
 
 const PostDetails = (prop: IPostDetails) => {
-  console.log(prop);
+  const [comments, setComments] = useState<IComment[]>([]);
+  const getCommentsById = () => {
+    try {
+      axios
+        .get(ApiRoutes.BASEURL + ApiRoutes.POST + "/" + prop.id + "/comments")
+        .then(function (response) {
+          setComments(response.data);
+        });
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getCommentsById();
+  }, []);
   return (
     <div
       key={prop.id}
@@ -18,6 +32,13 @@ const PostDetails = (prop: IPostDetails) => {
       <h2 style={{ margin: "0" }}>{prop.title}</h2>
       <h3 style={{ margin: "0" }}>{prop.author}</h3>
       <p style={{ position: "absolute" }}>{prop.content}</p>
+      <h3>Comments</h3>
+      {comments.map((c) => (
+        <p key={c.id}>
+          <Comment id={c.id} name={c.name} />
+        </p>
+      ))}
+
       <div
         style={{
           position: "relative",

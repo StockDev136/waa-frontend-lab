@@ -8,3 +8,8 @@ export interface IPost {
 export interface IPostDetails extends IPost {
   getPosts: () => void;
 }
+
+export interface IComment {
+  id: number;
+  name: string;
+}

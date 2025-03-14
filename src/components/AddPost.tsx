@@ -1,31 +1,43 @@
 import axios from "axios";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { ApiRoutes } from "../utility/ApiRoutes";
 
 interface AddPostProp {
   getPosts: () => void;
 }
 const AddPost = (props: AddPostProp) => {
-  const [formValue, setFormValue] = useState({
-    title: "",
-    content: "",
-    author: "",
-  });
+  // const [formValue, setFormValue] = useState({
+  //   title: "",
+  //   content: "",
+  //   author: "",
+  // });
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormValue({ ...formValue, [event.target.name]: event.target.value });
-  };
+  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setFormValue({ ...formValue, [event.target.name]: event.target.value });
+  // };
+
+  const titleRef = useRef(null);
+  const conentRef = useRef(null);
+  const authorRef = useRef(null);
 
   const handleAddPost = async () => {
+    // await axios.post(ApiRoutes.BASEURL + ApiRoutes.POST, {
+    //   title: formValue.title,
+    //   content: formValue.content,
+    //   author: formValue.author,
+    // });
+    const title = titleRef.current.value;
+    const content = conentRef.current.value;
+    const author = authorRef.current.value;
     await axios.post(ApiRoutes.BASEURL + ApiRoutes.POST, {
-      title: formValue.title,
-      content: formValue.content,
-      author: formValue.author,
+      title: title,
+      content: content,
+      author: author,
     });
 
     await props.getPosts();
 
-    setFormValue({ title: "", content: "", author: "" });
+    // setFormValue({ title: "", content: "", author: "" });
   };
   return (
     <>
@@ -41,8 +53,9 @@ const AddPost = (props: AddPostProp) => {
                   <span>Title: </span>
                   <input
                     type="text"
-                    value={formValue.title}
-                    onChange={handleChange}
+                    // value={formValue.title}
+                    // onChange={handleChange}
+                    ref={titleRef}
                     name="title"
                     placeholder="Title"
                   />
@@ -53,8 +66,9 @@ const AddPost = (props: AddPostProp) => {
                   <span>Content: </span>
                   <input
                     type="text"
-                    value={formValue.content}
-                    onChange={handleChange}
+                    // value={formValue.content}
+                    // onChange={handleChange}
+                    ref={conentRef}
                     name="content"
                     placeholder="Content"
                   />
@@ -65,8 +79,9 @@ const AddPost = (props: AddPostProp) => {
                   <span>Author: </span>
                   <input
                     type="text"
-                    value={formValue.author}
-                    onChange={handleChange}
+                    // value={formValue.author}
+                    // onChange={handleChange}
+                    ref={authorRef}
                     name="author"
                     placeholder="Author"
                   />

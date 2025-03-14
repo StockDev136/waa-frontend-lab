@@ -1,12 +1,14 @@
 import "./App.css";
-import AddPost from "./components/AddPost";
 import Dashboard from "./components/Dashboard";
+import DataContext from "./components/DataContext";
 
 function App() {
   return (
-    <div>
-      <Dashboard />
-    </div>
+    <>
+      <DataContext>
+        <Dashboard />
+      </DataContext>
+    </>
   );
 }
 

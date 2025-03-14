@@ -6,9 +6,6 @@ import { IPost } from "../data/IPost";
 import AddPost from "./AddPost";
 import { posts } from "../data/Posts";
 
-const fetchAllPost = async () =>
-  await axios.get(ApiRoutes.BASEURL + ApiRoutes.POST);
-
 const Dashboard = () => {
   const [postData, setPostData] = useState<IPost[]>(posts);
   const [title, setTitle] = useState("");

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IPost } from "../data/IPost";
 import Post from "./Post";
 import PostDetails from "./PostDetails";
 import axios from "axios";
 import { ApiRoutes } from "../utility/ApiRoutes";
+import { GlobalContext } from "./DataContext";
 
 interface PostProps {
   postProps: IPost[];
@@ -19,6 +20,7 @@ const initSinglePost: IPost = {
 
 const Posts = (props: PostProps) => {
   const [singlePost, setSinglePost] = useState(initSinglePost);
+  const { setPostId } = useContext(GlobalContext);
   return (
     <div
       style={{
@@ -42,6 +44,7 @@ const Posts = (props: PostProps) => {
                 .get(ApiRoutes.BASEURL + ApiRoutes.POST + "/" + p.id)
                 .then(function (response) {
                   setSinglePost(response.data);
+                  setPostId(p.id);
                 });
             } catch (error) {}
           }}
